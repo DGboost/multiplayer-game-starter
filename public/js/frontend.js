@@ -7,8 +7,8 @@ const scoreEl = document.querySelector('#scoreEl')
 
 const devicePixelRatio = window.devicePixelRatio || 1
 
-canvas.width = 1024 * devicePixelRatio
-canvas.height = 576 * devicePixelRatio
+canvas.width = 1920 * devicePixelRatio
+canvas.height = 1080 * devicePixelRatio
 
 c.scale(devicePixelRatio, devicePixelRatio)
 
@@ -31,7 +31,7 @@ socket.on('updateProjectiles', (backEndProjectiles) => {
         velocity: backEndProjectile.velocity
       })
     } else {
-      frontEndProjectiles[id].x += backEndProjectiles[id].velocity.x
+      frontEndProjectiles[id].x += backEndProjectiles[id].velocity.x 
       frontEndProjectiles[id].y += backEndProjectiles[id].velocity.y
     }
   }
@@ -173,7 +173,7 @@ const keys = {
   }
 }
 
-const SPEED = 5
+const SPEED = 10
 const playerInputs = []
 let sequenceNumber = 0
 setInterval(() => {

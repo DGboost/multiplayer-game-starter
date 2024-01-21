@@ -5,7 +5,7 @@ const app = express()
 const http = require('http')
 const server = http.createServer(app)
 const { Server } = require('socket.io')
-const io = new Server(server, { pingInterval: 2000, pingTimeout: 5000 })
+const io = new Server(server, { pingInterval: 1920, pingTimeout: 5000 })
 
 const port = 3000
 
@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 const backEndPlayers = {}
 const backEndProjectiles = {}
 
-const SPEED = 5
+const SPEED = 10
 const RADIUS = 10
 const PROJECTILE_RADIUS = 5
 let projectileId = 0
@@ -32,8 +32,8 @@ io.on('connection', (socket) => {
     projectileId++
 
     const velocity = {
-      x: Math.cos(angle) * 5,
-      y: Math.sin(angle) * 5
+      x: Math.cos(angle) * 10,
+      y: Math.sin(angle) * 10 
     }
 
     backEndProjectiles[projectileId] = {
@@ -48,8 +48,8 @@ io.on('connection', (socket) => {
 
   socket.on('initGame', ({ username, width, height }) => {
     backEndPlayers[socket.id] = {
-      x: 1024 * Math.random(),
-      y: 576 * Math.random(),
+      x: 1920 * Math.random(),
+      y: 1080 * Math.random(),
       color: `hsl(${360 * Math.random()}, 100%, 50%)`,
       sequenceNumber: 0,
       score: 0,
@@ -104,13 +104,13 @@ io.on('connection', (socket) => {
 
     if (playerSides.left < 0) backEndPlayers[socket.id].x = backEndPlayer.radius
 
-    if (playerSides.right > 1024)
-      backEndPlayers[socket.id].x = 1024 - backEndPlayer.radius
+    if (playerSides.right > 1920)
+      backEndPlayers[socket.id].x = 1920 - backEndPlayer.radius
 
     if (playerSides.top < 0) backEndPlayers[socket.id].y = backEndPlayer.radius
 
-    if (playerSides.bottom > 576)
-      backEndPlayers[socket.id].y = 576 - backEndPlayer.radius
+    if (playerSides.bottom > 1080)
+      backEndPlayers[socket.id].y = 1080 - backEndPlayer.radius
   })
 })
 
@@ -121,7 +121,6 @@ setInterval(() => {
     backEndProjectiles[id].x += backEndProjectiles[id].velocity.x
     backEndProjectiles[id].y += backEndProjectiles[id].velocity.y
 
-    const PROJECTILE_RADIUS = 5
     if (
       backEndProjectiles[id].x - PROJECTILE_RADIUS >=
         backEndPlayers[backEndProjectiles[id].playerId]?.canvas?.width ||
